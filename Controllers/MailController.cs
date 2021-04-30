@@ -17,10 +17,20 @@ namespace MailSystemWebApi.Controllers
         {
             Mails = mail;
         }
+        //[HttpGet]
+        //public JsonResult Get()
+        //{
+        //    return new JsonResult(Mails.getAllMail());
+        //}
         [HttpGet]
-        public JsonResult Get()
+        public JsonResult Get(int userId)
         {
-            return new JsonResult(Mails.getAllMail());
+            return new JsonResult(Mails.getAllMailByUserId(userId));
+        }
+        [HttpPost]
+        public JsonResult Post(string title, DateTime date, int addresseeId, int addresserId, string content)
+        {
+            return new JsonResult(Mails.createMailByUser(title, date, addresseeId, addresserId, content));
         }
     }
 }
