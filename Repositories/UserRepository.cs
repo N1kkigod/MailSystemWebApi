@@ -19,14 +19,21 @@ namespace MailSystemWebApi.Repositories
         {
             try 
             {
-                int searchUser = Context.Set<TDbModel>().Where(user => user.UserName == login).First().UserID;
+                IQueryable<TDbModel> searchModel = Context.Set<TDbModel>().Where(user => user.UserName == login);
+                bool searchUser = searchModel.Any<TDbModel>();
+                if(!searchUser)
+                {
+                    return null;
+                }
+
                 //var selectedUser = Context.Set<TDbModel>().Select(
                 //    (user, username) => new { User = user, UserName = username }).Where(user => user.UserName == login)
                 //    .Select(user => user.UserID);
 
                 //int id = Context.Set<TDbModel>().Find
-                if (Context.Set<TDbModel>().Find(searchUser).Password == password)
-                    return Context.Set<TDbModel>().Find(searchUser);
+                int userID = searchModel.First().UserID;
+                if (Context.Set<TDbModel>().Find(userID).Password == password)
+                    return Context.Set<TDbModel>().Find(userID);
                 else
                     return null;
             }

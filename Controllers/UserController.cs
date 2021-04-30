@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using MailSystemWebApi.Repositories;
 using MailSystemWebApi.Models;
+using Microsoft.AspNetCore.Mvc.Filters;
+//using System.Web.Http;
 
 namespace MailSystemWebApi.Controllers
 {
@@ -13,15 +15,29 @@ namespace MailSystemWebApi.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private IUserRepository<User> UsersTable { get; set; }
+        //private readonly ActionExecutedContext context;
         public UserController(IUserRepository<User> user)
         {
+            //this.context = context;
             UsersTable = user;
         }
+        private IUserRepository<User> UsersTable { get; set; }
+        //public UserController(IUserRepository<User> user)
+        //{
+        //    
+        //}
         [HttpGet]
-        public JsonResult Get(string login, string password)
+        public ActionResult Get()
         {
-            return new JsonResult(UsersTable.checkLogin(login, password));
+            
+            string header = Request.Headers["auth"];
+            User answer = UsersTable.checkLogin(header.Split(" ")[0], header.Split(" ")[1]);
+            if (answer == null)
+            {
+                return NotFound();
+            }
+            else
+                return new OkObjectResult(answer);
         }
     }
 }
