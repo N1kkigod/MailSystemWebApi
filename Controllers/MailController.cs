@@ -17,11 +17,13 @@ namespace MailSystemWebApi.Controllers
         {
             Mails = mail;
         }
-        //[HttpGet]
-        //public JsonResult Get()
-        //{
-        //    return new JsonResult(Mails.getAllMail());
-        //}
+        [Route("/mails")]
+        [HttpGet]
+        public JsonResult Get()
+        {
+            return new JsonResult(Mails.getAllMail());
+        }
+        [Route("/mails/{userId}")]
         [HttpGet]
         public JsonResult Get(int userId)
         {
