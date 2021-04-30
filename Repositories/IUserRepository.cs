@@ -8,6 +8,6 @@ namespace MailSystemWebApi.Repositories
 {
     public interface IUserRepository<TDbModel> where TDbModel : User
     {
-        public bool checkLogin(string login, string password);
+        public TDbModel checkLogin(string login, string password);
     }
 }

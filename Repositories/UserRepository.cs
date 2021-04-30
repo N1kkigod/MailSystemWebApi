@@ -15,7 +15,7 @@ namespace MailSystemWebApi.Repositories
         {
             Context = context;
         }
-        public bool checkLogin(string login, string password)
+        public TDbModel checkLogin(string login, string password)
         {
             try 
             {
@@ -26,13 +26,13 @@ namespace MailSystemWebApi.Repositories
 
                 //int id = Context.Set<TDbModel>().Find
                 if (Context.Set<TDbModel>().Find(searchUser).Password == password)
-                    return true;
+                    return Context.Set<TDbModel>().Find(searchUser);
                 else
-                    return false;
+                    return null;
             }
             catch
             {
-                return false;
+                throw;
             }
         }
     }
