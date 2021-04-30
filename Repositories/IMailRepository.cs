@@ -10,6 +10,7 @@ namespace MailSystemWebApi.Repositories
         public IEnumerable<TDbModel> getAllMail();
         public TDbModel getMailById();
         public IEnumerable<TDbModel> getAllMailByUserId(int UserId);
-        public bool createMailByUser(string title, DateTime date, int addresseeId, int addresserId, string content);
+        public TDbModel createMailByUser(TDbModel mail);
+        public TDbModel deleteMailByUser(int mailID);
     }
 }

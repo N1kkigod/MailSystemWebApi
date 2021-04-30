@@ -28,9 +28,16 @@ namespace MailSystemWebApi.Controllers
             return new JsonResult(Mails.getAllMailByUserId(userId));
         }
         [HttpPost]
-        public JsonResult Post(string title, DateTime date, int addresseeId, int addresserId, string content)
+        public JsonResult Post(Mail mail)
         {
-            return new JsonResult(Mails.createMailByUser(title, date, addresseeId, addresserId, content));
+            return new JsonResult(Mails.createMailByUser(mail));
+        }
+        [HttpDelete]
+        public JsonResult Delete(int mailID)
+        {
+            JsonResult jsonResult = new JsonResult(Mails.deleteMailByUser(mailID));
+            jsonResult.StatusCode = 200;
+            return jsonResult;
         }
     }
 }

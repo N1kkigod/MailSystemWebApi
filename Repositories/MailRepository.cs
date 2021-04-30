@@ -36,24 +36,37 @@ namespace MailSystemWebApi.Repositories
             }
             return mailsByUserId;
         }
-        public bool createMailByUser(string title, DateTime date, int addresseeId, int addresserId, string content)
+        public TDbModel createMailByUser(TDbModel mail)
         {
             try
             {
-                TDbModel nMail = (TDbModel)new Mail();
-                nMail.MailID = Context.Set<TDbModel>().OrderBy(TDbModel => TDbModel.MailID).Last().MailID + 1;
-                nMail.Title = title;
-                nMail.Date = date;
-                nMail.AddresseeID = addresseeId;
-                nMail.AddresserID = addresserId;
-                nMail.MailContent = content;
-                Context.Set<TDbModel>().Add(nMail);
+                //TDbModel nMail = (TDbModel)new Mail();
+                mail.MailID = Context.Set<TDbModel>().OrderBy(TDbModel => TDbModel.MailID).Last().MailID + 1;
+                //nMail.Title = title;
+                //nMail.Date = date;
+                //nMail.AddresseeID = addresseeId;
+                //nMail.AddresserID = addresserId;
+                //nMail.MailContent = content;
+                TDbModel newMail = Context.Set<TDbModel>().Add(mail).Entity;
                 Context.SaveChanges();
-                return true;
+                return newMail;
             }
             catch
             {
-                return false;
+                throw;
+            }
+        }
+        public TDbModel deleteMailByUser(int mailID)
+        {
+            try
+            {
+                TDbModel deletedMail = Context.Set<TDbModel>().Remove(Context.Set<TDbModel>().Find(mailID)).Entity;
+                Context.SaveChanges();
+                return deletedMail;
+            }
+            catch
+            {
+                throw;
             }
         }
 

@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using MailSystemWebApi.DataBase;
 using Microsoft.EntityFrameworkCore;
 using MailSystemWebApi.Repositories;
+using MailSystemWebApi.Models;
 
 namespace MailSystemWebApi
 {
@@ -34,11 +35,12 @@ namespace MailSystemWebApi
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddMvc();
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
+            services.AddTransient<IUserRepository<User>, UserRepository<User>>();
             services.AddTransient<IMailRepository<Mail>, MailRepository<Mail>>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MailSystemWebApi", Version = "v1" });
+                c.SwaggerDoc("v2", new OpenApiInfo { Title = "MailSystemWebApi", Version = "v1" });
             });
         }
 
@@ -49,7 +51,7 @@ namespace MailSystemWebApi
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MailSystemWebApi v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v2/swagger.json", "MailSystemWebApi v1"));
             }
 
             app.UseHttpsRedirection();
