@@ -15,6 +15,5 @@ namespace MailSystemWebApi
         public int AddresseeID { get; set; }
         public int AddresserID { get; set; }
         public string MailContent { get; set; } 
-
     }
 }
